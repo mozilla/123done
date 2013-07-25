@@ -39,6 +39,12 @@ $(document).ready(function() {
   var loggedOut = $("#loggedout");
   var loginDisplay = $("ul.loginarea");
 
+  var evLog = $("#eventLog");
+  function eventLog(signal) {
+    if (evLog.text()) { signal = ', ' + signal; }
+    evLog.append(signal)
+  }
+
   // now check with the server to get our current login state
   $.get('/api/auth_status', function(data) {
     loggedInEmail = JSON.parse(data).logged_in_email;
@@ -64,6 +70,7 @@ $(document).ready(function() {
       loggedInUser: loggedInEmail,
       // onlogin will be called any time the user logs in
       onlogin: function(assertion) {
+        eventLog('callback::onlogin');
         loginAssertion = assertion;
 
         // display spinner
@@ -84,6 +91,7 @@ $(document).ready(function() {
       },
       // onlogout will be called any time the user logs out
       onlogout: function() {
+        eventLog('callback::onlogout');
         loggedInEmail = null;
         updateUI(loggedInEmail);
 
@@ -102,6 +110,7 @@ $(document).ready(function() {
       // onready will be called as soon as persona has loaded, at this
       // point we can display our login buttons.
       onready: function() {
+        eventLog('callback::onready');
         // Only update the UI if no assertion is being verified
         if (null === loginAssertion) {
           updateUI(loggedInEmail);
@@ -109,11 +118,15 @@ $(document).ready(function() {
         
         // display current saved state
         State.load();
+      },
+      onmatch: function() {
+        eventLog('callback::onmatch');
       }
     });
 
     // upon click of signin button call navigator.id.request()
     $('button').click(function(ev) {
+      eventLog('click::login');
       ev.preventDefault();
 
       // disable the sign-in button when a user clicks it, it will be
@@ -128,6 +141,7 @@ $(document).ready(function() {
 // XXX: we need SSL to display a siteLogo in dialog.  Must get certificates.
 //        siteLogo: "/img/logo100.png",
         oncancel: function() {
+          eventLog('callback::oncancel');
           // when the user cancels the persona dialog, let's re-enable the
           // sign-in button
           $("button").removeAttr('disabled').css('opacity', '1');
@@ -137,6 +151,7 @@ $(document).ready(function() {
 
     // upon click of logout link navigator.id.logout()
     $("#loggedin a").click(function(ev) {
+      eventLog('click::logout');
       ev.preventDefault();
       navigator.id.logout()
     });
