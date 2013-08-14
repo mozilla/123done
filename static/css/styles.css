@@ -70,7 +70,6 @@ section form {
 #todolist li:hover:after,
 #todolist li.done:after {
     content: '✔';
-    color: #;
     position: absolute;
     left: 5px;
     top: 15px;
