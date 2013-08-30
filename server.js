@@ -1,4 +1,5 @@
-var express       = require('express'),
+var http          = require('http'),
+    express       = require('express'),
     https         = require('https'),
     sessions      = require('client-sessions'),
     redis         = require('redis'),
@@ -13,10 +14,11 @@ db.on("error", function (err) {
   console.log("redis error!  the server won't actually store anything!  this is just fine for local dev");
 });
 
-var app = express.createServer(
-  express.logger(),
-  express.bodyParser()
-);
+var express = require("express");
+var app = express();
+
+app.use(express.logger());
+app.use(express.bodyParser());
 
 app.use(require('./retarget.js'));
 
@@ -108,9 +110,11 @@ app.get('/api/todos/get', checkAuth, function(req, res) {
   if (db) {
     db.get(req.session.user, function(err, reply) {
       if (err) {
-        res.send(err.toString(), { 'Content-Type': 'text/plain' }, 500);
+        res.set('Content-Type', 'text/plain');
+        res.send(500, err.toString());
       } else {
-        res.send(reply ? reply : '[]', { 'Content-Type': 'application/json' }, 200);
+        res.set('Content-Type', 'application/json');
+        res.send(200, reply ? reply : '[]');
       }
     });
   } else {
@@ -122,4 +126,10 @@ app.get('/api/todos/get', checkAuth, function(req, res) {
 
 app.use(express.static(__dirname + "/static"));
 
-app.listen(process.env['PORT'] || 8080, '0.0.0.0');
+var server = http.createServer();
+var port = process.env['PORT'] || 8080;
+
+server.on('request', app);
+server.listen(port, '0.0.0.0', function() {
+    console.log('Server listening on port %s', port);
+});
