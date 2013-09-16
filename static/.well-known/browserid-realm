@@ -1,0 +1,3 @@
+{
+  "realm": ["https://sso-a.personatest.org", "https://sso-b.personatest.org"]
+}

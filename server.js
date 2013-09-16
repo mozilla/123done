@@ -120,6 +120,13 @@ app.get('/api/todos/get', checkAuth, function(req, res) {
 });
 
 
+app.use(function(req, res, next) {
+  if (req.path === "/.well-known/browserid-realm") {
+    res.header('Content-Type', 'application/json');
+  }
+  next();
+});
+
 app.use(express.static(__dirname + "/static"));
 
 app.listen(process.env['PORT'] || 8080, '0.0.0.0');
