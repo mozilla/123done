@@ -44,7 +44,7 @@ $(document).ready(function() {
       }
       $("button").removeAttr('disabled').css('opacity', '1');
     }
-    
+
     function updateListArea(email) {
       $("section.todo ul").css('display', 'none');
       $("section.todo form").css('display', 'none');
@@ -57,17 +57,13 @@ $(document).ready(function() {
     }
 
     // register callbacks with the persona API to be invoked when
-    // the user logs in or out.
+    // the user log in.
     navigator.id.watch({
-      // pass the currently logged in email address from the server's
-      // session. This will cause onlogin/onlogout to not be invoked
-      // when we're up to date.
-      loggedInUser: loggedInEmail,
       // onlogin will be called any time the user logs in
       onlogin: function(assertion) {
         loginAssertion = assertion;
 
-        // display spinner        
+        // display spinner
         $("section.todo ul").css('display', 'none');
         $("section.todo form").css('display', 'none');
         $("ul.loginarea li").css('display', 'none');
@@ -88,37 +84,11 @@ $(document).ready(function() {
           updateListArea(loggedInEmail);
         });
       },
-      // onlogout will be called any time the user logs out
-      onlogout: function() {
-        loggedInEmail = null;
-        updateUI(loggedInEmail);
-        updateListArea(loggedInEmail);
-
-        // clear items from the dom at logout
-        $("#todolist > li").remove();
-        State.save();
-
-        // don't display the warning icon at logout time, but wait until the user
-        // makes a change to her tasks
-        $("#dataState > div").css('display', 'none');
-
-        // upon logout, make an api request to tear the user's session down
-        $.post('/api/logout');
-
-      },
-      // onready will be called as soon as persona has loaded, at this
-      // point we can display our login buttons.
-      onready: function() {
-        // Only update the UI if no assertion is being verified
-        if (null === loginAssertion) {
-          updateUI(loggedInEmail);
-          updateListArea(loggedInEmail);
-        }
-
-        // display current saved state
-        State.load();
-      }
     });
+
+    updateUI(null);
+    updateListArea(null);
+    State.load();
 
     // upon click of signin button call navigator.id.request()
     $('button').click(function(ev) {
@@ -134,8 +104,8 @@ $(document).ready(function() {
         siteName: "123done",
         backgroundColor: "#cdd7d9",
         allowRedirect: true,
-// XXX: we need SSL to display a siteLogo in dialog. Must get certificates.
-// siteLogo: "/img/logo100.png",
+        // XXX: we need SSL to display a siteLogo in dialog. Must get certificates.
+        // siteLogo: "/img/logo100.png",
         oncancel: function() {
           // when the user cancels the persona dialog, let's re-enable the
           // sign-in button
@@ -147,7 +117,21 @@ $(document).ready(function() {
     // upon click of logout link navigator.id.logout()
     $("#loggedin a").click(function(ev) {
       ev.preventDefault();
-      navigator.id.logout();
+
+      loggedInEmail = null;
+      updateUI(loggedInEmail);
+      updateListArea(loggedInEmail);
+
+      // clear items from the dom at logout
+      $("#todolist > li").remove();
+      State.save();
+
+      // don't display the warning icon at logout time, but wait until the user
+      // makes a change to her tasks
+      $("#dataState > div").css('display', 'none');
+
+      // upon logout, make an api request to tear the user's session down
+      $.post('/api/logout');
     });
   });
 });
