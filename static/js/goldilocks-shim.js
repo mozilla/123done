@@ -18,7 +18,7 @@
       }
     };
 
-    // Kill Persona state (logout) before invoking the login callback.
+    // Kill Persona state (call logout) before invoking the login callback.
     args.onlogin = function (a) {
       loggingIn = true;
       assertion = a;

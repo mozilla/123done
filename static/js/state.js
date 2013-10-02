@@ -104,17 +104,21 @@
   }
 
   // retrieve todolist from localstorage
-  function loadstate() {
+  function loadstate(next) {
     if (loggedInEmail) {
       setSyncStatus('inprogress');
       $.get('/api/todos/get', function(data) {
         if (!data || !data.length) data = [];
         updateDomWithArray(data);
         setSyncStatus('saved');
+        if (next) { next(); }
       });
     } else if (localStorage.todolist) {
       setSyncStatus('outofdate');
       todo.html(localStorage.todolist);
+      if (next) { next(); }
+    } else {
+      if (next) { next(); }
     }
   };
 

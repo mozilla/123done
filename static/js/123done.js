@@ -8,8 +8,6 @@
 $(document).ready(function() {
   window.loggedInEmail = null;
 
-  var loginAssertion = null;
-
   // verify the assertion on the server, which will use the
   // verification service provided by mozilla
   // see the '/verify' handler inside server.js for details
@@ -57,11 +55,10 @@ $(document).ready(function() {
     }
 
     // register callbacks with the persona API to be invoked when
-    // the user log in.
+    // the user logs in.
     navigator.id.watch({
-      // onlogin will be called any time the user logs in
       onlogin: function(assertion) {
-        loginAssertion = assertion;
+        var loginAssertion = assertion;
 
         // display spinner
         $("section.todo ul").css('display', 'none');
@@ -85,10 +82,6 @@ $(document).ready(function() {
         });
       },
     });
-
-    updateUI(null);
-    updateListArea(null);
-    State.load();
 
     // upon click of signin button call navigator.id.request()
     $('button').click(function(ev) {
@@ -133,5 +126,11 @@ $(document).ready(function() {
       // upon logout, make an api request to tear the user's session down
       $.post('/api/logout');
     });
+
+    State.load(function () {
+      updateUI(loggedInEmail);
+      updateListArea(loggedInEmail);
+    });
+
   });
 });
