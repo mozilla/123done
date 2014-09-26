@@ -107,7 +107,7 @@ module.exports = function(app, db) {
 
     // state should exists in our set of active flows and the user should
     // have a cookie with that state
-    if (code && state && state in oauthFlows && state === req.session.state) {
+    if (code && state && state in oauthFlows) {
       delete oauthFlows[state];
       delete req.session.state;
 
@@ -157,8 +157,6 @@ module.exports = function(app, db) {
         msg += ' - missing state';
       } else if (!oauthFlows[state]) {
         msg += ' - unknown state';
-      } else if (state !== req.session.state) {
-        msg += ' - state cookie doesn\'t match';
       }
 
       console.error('msg', msg);
