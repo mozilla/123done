@@ -1,5 +1,7 @@
 {
-  "ami": "ami-6f690106",
+  "packages": [
+    "nginx"
+  ],
   "processes": [
     "server.js"
   ],
