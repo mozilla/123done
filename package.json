@@ -3,37 +3,34 @@
   "description": "A simple tasklist app that demonstrates Persona Sign-In",
   "version": "0.0.1",
   "author": {
-    "name" : "Mozilla",
-    "url" : "https://mozilla.org/"
+    "name": "Mozilla",
+    "url": "https://mozilla.org/"
   },
-  "licenses" : [{
-    "type": "MPL 2.0",
-    "url": "https://mozilla.org/MPL/2.0/"
-  }],
-  "homepage": "http://123done.org/",
   "bugs": "https://github.com/mozilla/123done/issues",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mozilla/123done"
-  },
-  "private": true,
   "dependencies": {
     "browserid-verify": "0.1.2",
-    "express": "2.5.0",
     "client-sessions": "0.3.1",
-    "redis": "0.7.1",
-    "postprocess": "0.2.4",
     "connect-fonts": "0.0.9-alpha8",
-    "connect-fonts-drsugiyama": "0.0.1"
+    "connect-fonts-drsugiyama": "0.0.1",
+    "express": "2.5.0",
+    "postprocess": "0.2.4",
+    "redis": "0.7.1"
+  },
+  "devDependencies": {
+    "awsbox": "git://github.com/mozilla/awsbox.git#master"
   },
   "engines": {
     "node": ">=0.8.0"
   },
+  "homepage": "http://123done.org/",
+  "license": "MPL-2.0",
   "optionalDependencies": {
     "hiredis": "0.1.14"
   },
-  "devDependencies": {
-    "awsbox": "git://github.com/mozilla/awsbox.git#master"
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mozilla/123done"
   },
   "scripts": {
     "start": "node server.js"
