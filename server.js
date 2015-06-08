@@ -81,9 +81,9 @@ app.post('/api/verify', function(req, res) {
 // auth status reports who the currently logged in user is on this
 // session
 app.get('/api/auth_status', function(req, res) {
-  res.send(JSON.stringify({
+  res.json({
     logged_in_email: req.session.user || null,
-  }));
+  });
 });
 
 // logout clears the current authenticated user

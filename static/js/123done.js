@@ -30,7 +30,7 @@ $(document).ready(function() {
 
   // now check with the server to get our current login state
   $.get('/api/auth_status', function(data) {
-    loggedInEmail = JSON.parse(data).logged_in_email;
+    loggedInEmail = data.logged_in_email;
 
     function updateUI(email) {
       $("ul.loginarea li").css('display', 'none');
