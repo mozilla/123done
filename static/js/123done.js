@@ -63,7 +63,7 @@ $(document).ready(function() {
           $("#dataState > div").css('display', 'none');
         })
         .fail(function() {
-          // this should ever happen
+          // this should never happen
           alert('Failed to logout');
         });
     };
