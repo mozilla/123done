@@ -5,7 +5,6 @@ var crypto = require('crypto');
 var request = require('request');
 var querystring = require('querystring');
 var KeyPair = require('fxa-crypto-utils').KeyPair;
-var PreverifiedEmailTokenGenerator = require('fxa-crypto-utils').PreverifiedEmailTokenGenerator;
 
 var DIFFERENT_BROWSER_ERROR = 3005;
 
