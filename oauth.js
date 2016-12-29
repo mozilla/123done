@@ -17,7 +17,7 @@ function toQueryString(obj) {
   return '?' + querystring.stringify(obj);
 }
 
-function getOAuthInfo(action, nonce, email, preVerifyToken) {
+function getOAuthInfo(action, nonce, email) {
   var oauthParams = {
     client_id: config.client_id,
     redirect_uri: config.redirect_uri,
@@ -33,10 +33,6 @@ function getOAuthInfo(action, nonce, email, preVerifyToken) {
 
   if (email) {
     oauthParams.email = email;
-  }
-
-  if (preVerifyToken) {
-    oauthParams.preVerifyToken = preVerifyToken;
   }
 
   return oauthParams;
@@ -56,14 +52,6 @@ function generateAndSaveNonce(req) {
 module.exports = function(app, db) {
   var keyPair = new KeyPair(config);
   var secretKeyId = 'dev-1';
-
-  var preVerifyTokenGenerator = new PreverifiedEmailTokenGenerator({
-    keyPair: keyPair,
-    secretKeyId: secretKeyId,
-    // jku is where the corresponding public key can be found.
-    jku: config.preverify_email_jku,
-    audience: config.preverify_email_audience
-  });
 
   // begin a new oauth log in flow
   app.get('/api/login', function(req, res) {
@@ -103,19 +91,6 @@ module.exports = function(app, db) {
     var nonce = generateAndSaveNonce(req);
     var oauthInfo = getOAuthInfo('force_auth', nonce, req.query.email);
     return res.redirect(redirectUrl(oauthInfo));
-  });
-
-  app.get('/api/preverified-signup', function(req, res) {
-    var email = req.query.email;
-    // A real RP would do some validation on the email address
-    // here to ensure the address is actually verified and that
-    // the user making the request is the current user.
-    preVerifyTokenGenerator.generate(email)
-      .then(function (preVerifyToken) {
-        var nonce = generateAndSaveNonce(req);
-        var oauthInfo = getOAuthInfo('signup', nonce, email, preVerifyToken);
-        return res.redirect(redirectUrl(oauthInfo));
-      });
   });
 
   app.get('/.well-known/public-keys', function (req, res) {
