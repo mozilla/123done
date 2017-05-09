@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="/css/main.css" type="text/css">
   <script src="/bower_components/modernizr/modernizr.js"></script>
   <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/js/util.js"></script>
 </head>
 
 <body>
@@ -24,6 +25,7 @@
       <button class="btn btn-large btn-info btn-persona signin-pkce" type="submit">Sign In with PKCE</button>
       <div class="pkce-data"></div>
 
+      <button class="btn btn-persona sign-keys" data-scopes="profile keys" type="submit">Sign in with keys</button>
       <button class="btn btn-large btn-info btn-persona sign-in-button signup" type="submit">Sign Up</button>
       <button class="btn btn-large btn-info btn-persona sign-in-button signin" type="submit">Sign In</button>
     </header>
