@@ -68,7 +68,9 @@ $(document).ready(function() {
         });
     };
 
-    function authenticate (endpoint, flow) {
+    function authenticate (endpoint, flow, options) {
+      options = options || {};
+
       if (window.location.href.indexOf('iframe') > -1) {
         $.getJSON('/api/' + endpoint)
           .done(function (data) {
@@ -99,7 +101,7 @@ $(document).ready(function() {
             relierClient.auth[flow]({
               ui: 'redirect',
               state: data.state,
-              scope: data.scope,
+              scope: options.scopes || data.scopes,
               redirectUri: data.redirect_uri
             });
         });
@@ -116,6 +118,29 @@ $(document).ready(function() {
 
     $('button.sign-choose').click(function(ev) {
       authenticate('best_choice', 'bestChoice');
+    });
+
+    $('button.sign-keys').click(function(ev) {
+      var scopes = $(ev.currentTarget).data('scopes');
+
+      return createKeyPair()
+        .then(function(key) {
+          debugger
+          $.getJSON('/api/login')
+            .done(function (data) {
+
+              var queryParams = {
+                client_id: data.client_id,
+                state: data.state,
+                scope: scopes,
+                redirectUri: data.redirect_uri
+              };
+
+              window.location.href = data.oauth_uri + '/authorization' + objectToQueryString(queryParams);
+            });
+        })
+
+
     });
 
     // upon click of logout link navigator.id.logout()
