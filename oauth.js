@@ -4,7 +4,6 @@ var config = require('./config');
 var crypto = require('crypto');
 var request = require('request');
 var querystring = require('querystring');
-var KeyPair = require('fxa-crypto-utils').KeyPair;
 
 var DIFFERENT_BROWSER_ERROR = 3005;
 
@@ -51,9 +50,6 @@ function generateAndSaveNonce(req) {
 }
 
 module.exports = function(app, db) {
-  var keyPair = new KeyPair(config);
-  var secretKeyId = 'dev-1';
-
   // begin a new oauth log in flow
   app.get('/api/login', function(req, res) {
     var nonce = generateAndSaveNonce(req);
@@ -106,15 +102,6 @@ module.exports = function(app, db) {
     return res.redirect(redirectUrl(oauthInfo));
   });
 
-  app.get('/.well-known/public-keys', function (req, res) {
-    keyPair.toPublicKeyResponseObject(secretKeyId)
-      .then(function (responseObject) {
-        res.json({
-          keys: [responseObject]
-        });
-      });
-  });
-
   app.get('/api/oauth', function(req, res) {
     var state = req.query.state;
     var code = req.query.code;
@@ -148,9 +135,6 @@ module.exports = function(app, db) {
         req.session.scopes = body.scopes;
         req.session.token_type = body.token_type;
         var token = req.session.token = body.access_token;
-
-        // store the bearer token
-        //db.set(code, body.access_token);
 
         request.get({
           uri: config.profile_uri + '/profile',
