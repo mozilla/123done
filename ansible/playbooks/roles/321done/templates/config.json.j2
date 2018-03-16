@@ -1,10 +1,7 @@
 {
   "client_id": "{{ untrusted_client_id }}",
   "client_secret": "{{ untrusted_client_secret }}",
-  "auth_uri": "{{ auth_uri }}",
-  "content_uri": "{{ content_uri }}",
-  "oauth_uri": "{{ oauth_uri }}",
-  "profile_uri": "{{ profile_uri }}",
+  "issuer_uri": "{{ issuer_uri }}",
   "redirect_uri": "https://{{ fqdn_untrusted }}/api/oauth",
-  "scopes": "profile:email profile:uid profile:display_name"
+  "scopes": "profile:email profile:uid profile:display_name openid"
 }

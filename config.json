@@ -5,10 +5,7 @@
   "pkce_client_id": "38a6b9b3a65a1871",
   "pkce_redirect_uri": "http://127.0.0.1:8080/?&oauth_pkce_redirect=1",
 
-  "redirect_uri": "https://123done.dev.lcip.org/api/oauth",
-  "auth_uri": "https://oauth.dev.lcip.org/v1/authorization",
-  "oauth_uri": "https://oauth.dev.lcip.org/v1",
-  "content_uri": "https://accounts.dev.lcip.org",
-  "profile_uri": "https://profile.dev.lcip.org/v1",
-  "scopes": "profile"
+  "redirect_uri": "http://127.0.0.1:8080/api/oauth",
+  "issuer_uri": "https://stable.dev.lcip.org",
+  "scopes": "profile openid"
 }

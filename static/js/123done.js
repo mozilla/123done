@@ -69,16 +69,7 @@ $(document).ready(function() {
     };
 
     function authenticate (endpoint) {
-      $.getJSON('/api/' + endpoint)
-        .done(function (data) {
-          var queryParams = {
-            client_id: data.client_id,
-            action: data.action,
-            state: data.state,
-            scope: 'profile',
-          };
-          window.location.href = data.oauth_uri + '/authorization' + objectToQueryString(queryParams);
-        });
+      window.location.href = '/api/' + endpoint 
     }
 
     $('button.signin').click(function(ev) {
@@ -113,37 +104,5 @@ $(document).ready(function() {
     State.load();
     $('body').addClass('ready').addClass('ready-hash-' + window.location.hash.substr(1));
   });
-
-  /**
- * Create a query parameter string from a key and value
- *
- * @method createQueryParam
- * @param {String} key
- * @param {Variant} value
- * @returns {String}
- * URL safe serialized query parameter
- */
-function createQueryParam(key, value) {
-  return encodeURIComponent(key) + '=' + encodeURIComponent(value);
-}
-
-
-/**
- * Create a query string out of an object.
- * @method objectToQueryString
- * @param {Object} obj
- * Object to create query string from
- * @returns {String}
- * URL safe query string
- */
-function objectToQueryString(obj) {
-  var queryParams = [];
-
-  for (var key in obj) {
-    queryParams.push(createQueryParam(key, obj[key]));
-  }
-
-  return '?' + queryParams.join('&');
-}
 
 });
