@@ -173,6 +173,9 @@ module.exports = function(app, db) {
         // Verify signature and extract claims from id_token
         verifyIdToken(oauthConfig, id_token)
           .then(function (claims) {
+            req.session.uid = claims.sub;
+            req.session.amr = claims.amr;
+            req.session.acr = claims.acr;
             // Fetch additional profile data.
             request.get({
               uri: oauthConfig.userinfo_endpoint,
@@ -184,9 +187,8 @@ module.exports = function(app, db) {
               if (err || r.status >= 400) {
                 return res.send(r ? r.status : 400, err || body);
               }
-              var data = JSON.parse(body);
-              req.session.email = data.email;
-              req.session.uid = data.uid;
+              var profile = JSON.parse(body);
+              req.session.email = profile.email;
               // ensure the redirect goes to the correct place for either
               // the redirect or iframe OAuth flows.
               var referrer = req.get('referrer') || '';
@@ -217,7 +219,7 @@ module.exports = function(app, db) {
       } else if (!oauthFlows[state]) {
         msg += ' - unknown state';
       } else if (state !== req.session.state) {
-        msg += ' - state cookie doesn\'t match';
+        msg += ' - state cookie doesn\'t match - ' + state + ' !== ' + req.session.state;
       }
 
       res.send(400, msg);

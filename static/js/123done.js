@@ -10,7 +10,12 @@ $(document).ready(function() {
 
   // now check with the server to get our current login state
   $.get('/api/auth_status', function(data) {
-    loggedInEmail = JSON.parse(data).email;
+    loggedInState = JSON.parse(data);
+    loggedInEmail = loggedInState.email;
+
+    if (loggedInState.acr === 'AAL2') {
+      loggedInEmail += " " +  String.fromCodePoint(0x1F512);
+    }
 
     function updateUI(email) {
       $("ul.loginarea li").css('display', 'none');
