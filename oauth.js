@@ -36,8 +36,8 @@ function verifyIdToken(oauthConfig, token) {
       if (claims.aud !== config.client_id) {
         throw new Error('unexpected id_token audience: ' + claims.aud);
       }
-      if (claims.iss !== oauthConfig.issuer) {
-        throw new Error('unexpected id_token issuer: ' + claims.iss);
+      if (claims.iss !== oauthConfig.issuer_uri) {
+        throw new Error('unexpected id_token issuer_uri: ' + claims.iss);
       }
       return claims;
     });
