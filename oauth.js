@@ -1,6 +1,6 @@
 'use strict';
 
-console.log('hi there 3');
+console.log('hi there 4');
 
 var config = require('./config');
 var crypto = require('crypto');
