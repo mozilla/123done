@@ -25,13 +25,13 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: lighter;
 }
 
-#splash  {
+#splash-456done {
     display: none;
     font-family: 'Alegreya Sans', sans-serif;
     margin-bottom: 60px;
 }
 
-#splash header{
+#splash-456done header {
     font-weight: 300;
     background: #eef2f0;
     margin: 0 0 100px 0;
@@ -44,14 +44,14 @@ h1, h2, h3, h4, h5, h6 {
     width: 72px;
 }
 
-#splash h1 {
+#splash-456done h1 {
     font-size: 72px;
     font-weight:100;
     margin: 0;
     text-align: center;
 }
 
-#splash h2 {
+#splash-456done h2 {
     font-size: 24px;
     font-weight: 300;
     margin: 0;

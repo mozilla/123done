@@ -23,12 +23,12 @@ $(document).ready(function() {
         console.log(email);
         $('#loggedin span').text(email);
         $('#loggedin').css('display', 'block');
-        $("#splash").hide();
+        $("#splash-456done").hide();
         $("#lists").slideDown(500);
       } else {
         $('#loggedin span').text('');
         $('#loggedout').css('display', 'block');
-        $("#splash").show();
+        $("#splash-456done").show();
         $("#lists").hide();
 
       }
@@ -56,7 +56,7 @@ $(document).ready(function() {
           updateUI(loggedInEmail);
           updateListArea(loggedInEmail);
 
-          $("#splash").show();
+          $("#splash-456done").show();
           $("#lists").hide();
 
           // clear items from the dom at logout
@@ -111,7 +111,7 @@ $(document).ready(function() {
     updateListArea(loggedInEmail);
     // display current saved state
     State.load();
-    $('body').addClass('ready').addClass('ready-hash-' + window.location.hash.substr(1));
+    $('body').addClass('ready-456done').addClass('ready-hash-' + window.location.hash.substr(1));
   });
 
 });
